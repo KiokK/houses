@@ -21,6 +21,7 @@ import java.util.UUID;
 public class HouseServiceImpl implements HouseService {
 
     private final HouseDao houseDao;
+
     private final HouseMapper houseMapper = Mappers.getMapper(HouseMapper.class);
 
     @Override

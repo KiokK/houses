@@ -12,4 +12,5 @@ public class HouseDtoTestData {
                 .street("Nemiga")
                 .number(2);
     }
+
 }

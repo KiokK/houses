@@ -14,7 +14,6 @@ import org.hibernate.type.descriptor.jdbc.UUIDJdbcType;
 import java.util.List;
 import java.util.UUID;
 
-
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
