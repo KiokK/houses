@@ -3,22 +3,22 @@ package ru.clevertec.houses.service;
 import ru.clevertec.houses.dao.model.PaginationInfo;
 import ru.clevertec.houses.dto.HouseDto;
 import ru.clevertec.houses.dto.HouseResidentsDto;
+import ru.clevertec.houses.dto.response.PaginationResponseDto;
+import ru.clevertec.houses.exception.EntityNotFoundException;
 
-import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 public interface HouseService {
 
     HouseDto create(HouseDto houseDto);
 
-    Optional<HouseDto> findHouseByUuid(UUID uuid);
+    HouseDto findHouseByUuid(UUID uuid) throws EntityNotFoundException;
 
-    List<HouseDto> findAll(PaginationInfo paginationInfo);
+    PaginationResponseDto findAll(PaginationInfo paginationInfo);
 
-    Optional<HouseResidentsDto> findAllResidentsByHouseUuid(UUID uuid);
+    HouseResidentsDto findAllResidentsByHouseUuid(UUID uuid) throws EntityNotFoundException;
 
-    Optional<HouseDto> update(HouseDto houseDto);
+    HouseDto update(UUID uuid, HouseDto houseDto) throws EntityNotFoundException;
 
     boolean deleteByUuid(UUID uuid);
 

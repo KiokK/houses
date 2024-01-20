@@ -1,11 +1,13 @@
 package ru.clevertec.houses.controller;
 
-import jakarta.validation.ValidationException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,89 +18,52 @@ import ru.clevertec.houses.dao.model.PaginationInfo;
 import ru.clevertec.houses.dto.HouseDto;
 import ru.clevertec.houses.dto.HouseResidentsDto;
 import ru.clevertec.houses.dto.error.ErrorResponseDto;
+import ru.clevertec.houses.dto.response.PaginationResponseDto;
 import ru.clevertec.houses.service.HouseService;
-import ru.clevertec.houses.validator.dto.HouseDtoValidator;
 
-import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
-import static ru.clevertec.houses.dto.error.ErrorCodeConstants.HOUSE_NOT_FOUND;
-import static ru.clevertec.houses.dto.error.ErrorCodeConstants.HOUSE_NOT_MODIFIED;
-import static ru.clevertec.houses.dto.error.ErrorCodeConstants.REQUEST_NOT_VALID;
+import static ru.clevertec.houses.dto.error.ErrorCodeConstants.ENTITY_NOT_MODIFIED;
 import static ru.clevertec.houses.dto.error.ErrorMessagesConstants.M_NOT_DELETED;
-import static ru.clevertec.houses.dto.error.ErrorMessagesConstants.M_NOT_FOUND;
-import static ru.clevertec.houses.dto.error.ErrorMessagesConstants.M_NOT_VALID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/house")
+@RequestMapping("/houses")
 public class HouseController {
 
     private final HouseService houseService;
 
-    private final HouseDtoValidator validator;
-
-    @GetMapping(value = "/find_all")
-    public ResponseEntity<List<HouseDto>> findAll(@RequestParam(value = "pageSize", required = false, defaultValue = "15") int pageSize,
-                                                  @RequestParam(value = "pageNumber", required = false, defaultValue = "0") int pageNumber) {
-        PaginationInfo paginationInfo = new PaginationInfo(pageNumber, pageSize);
+    @GetMapping
+    public ResponseEntity<PaginationResponseDto> findAll(@ModelAttribute(value = "paginationInfo") PaginationInfo paginationInfo) {
         return ResponseEntity.ok(houseService.findAll(paginationInfo));
     }
 
-    @GetMapping(value = "/find_by_uuid")
-    public ResponseEntity<?> findHouseByUuid(@RequestParam("uuid") UUID uuid) {
-        Optional<HouseDto> dto = houseService.findHouseByUuid(uuid);
-        if (dto.isPresent()) {
-            return ResponseEntity.ok(dto.get());
-        }
+    @GetMapping(value = "/{uuid}")
+    public ResponseEntity<?> findHouseByUuid(@PathVariable("uuid") UUID uuid) {
+        HouseDto dto = houseService.findHouseByUuid(uuid);
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(new ErrorResponseDto(String.format(M_NOT_FOUND, "uuid", uuid), HOUSE_NOT_FOUND));
+        return ResponseEntity.ok(dto);
     }
 
-    @GetMapping(value = "/find/with_residents")
-    public ResponseEntity<?> findHouseResidentsByHouseUuid(@RequestParam("uuid") UUID uuid) {
-        Optional<HouseResidentsDto> dto = houseService.findAllResidentsByHouseUuid(uuid);
-        if (dto.isPresent()) {
-            return ResponseEntity.ok(dto.get());
-        }
+    @GetMapping(value = "/{uuid}/with_residents")
+    public ResponseEntity<?> findHouseResidentsByHouseUuid(@PathVariable("uuid") UUID uuid) {
+        HouseResidentsDto dto = houseService.findAllResidentsByHouseUuid(uuid);
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(new ErrorResponseDto(String.format(M_NOT_FOUND, "uuid", uuid), HOUSE_NOT_FOUND));
+        return ResponseEntity.ok(dto);
     }
 
-    @PutMapping(value = "/create")
-    public ResponseEntity<?> createHouseDto(@RequestBody HouseDto houseDto) {
-        try {
-            validator.isValid(houseDto);
-        } catch (ValidationException validationException) {
-
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ErrorResponseDto(String.format(M_NOT_VALID, "requestDto", houseDto), REQUEST_NOT_VALID));
-        }
+    @PostMapping(value = "/create")
+    public ResponseEntity<?> createHouseDto(@Valid @RequestBody HouseDto houseDto) {
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(houseService.create(houseDto));
     }
 
-    @PostMapping(value = "/update")
-    public ResponseEntity<?> updateHouseDto(@RequestBody HouseDto houseDto) {
-        try {
-            validator.isValidWithNotNullUuid(houseDto);
-        } catch (ValidationException validationException) {
+    @PutMapping(value = "/{uuid}/update")
+    public ResponseEntity<?> updateHouseDto(@PathVariable("uuid") UUID uuid, @Valid @RequestBody HouseDto houseDto) {
+        HouseDto dto = houseService.update(uuid, houseDto);
 
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ErrorResponseDto(String.format(M_NOT_VALID, "requestDto", houseDto), REQUEST_NOT_VALID));
-        }
-
-        Optional<HouseDto> dto = houseService.update(houseDto);
-        if (dto.isPresent()) {
-            return ResponseEntity.ok(dto.get());
-        }
-
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(new ErrorResponseDto(String.format(M_NOT_FOUND, "uuid", houseDto.uuid), HOUSE_NOT_FOUND));
+        return ResponseEntity.ok(dto);
     }
 
     @DeleteMapping(value = "/delete")
@@ -109,7 +74,7 @@ public class HouseController {
         }
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(new ErrorResponseDto(String.format(M_NOT_DELETED, "uuid", uuid), HOUSE_NOT_MODIFIED));
+                .body(new ErrorResponseDto(String.format(M_NOT_DELETED, "uuid", uuid), ENTITY_NOT_MODIFIED));
     }
 
 }

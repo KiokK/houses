@@ -4,24 +4,24 @@ import ru.clevertec.houses.dao.model.PaginationInfo;
 import ru.clevertec.houses.dto.PersonDto;
 import ru.clevertec.houses.dto.PersonsHouseDto;
 import ru.clevertec.houses.dto.request.PersonsHouseRequestDto;
+import ru.clevertec.houses.dto.response.PaginationResponseDto;
+import ru.clevertec.houses.exception.EntityNotFoundException;
 
-import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 public interface PersonService {
 
     PersonDto create(PersonDto personDto);
 
-    Optional<PersonDto> findPersonByUuid(UUID uuid);
+    PersonDto findPersonByUuid(UUID uuid) throws EntityNotFoundException;
 
-    List<PersonDto> findAll(PaginationInfo paginationInfo);
+    PaginationResponseDto findAll(PaginationInfo paginationInfo);
 
-    Optional<PersonsHouseDto> findAllOwnHousesByPersonUuid(UUID uuid);
+    PersonsHouseDto findAllOwnHousesByPersonUuid(UUID uuid) throws EntityNotFoundException;
 
-    boolean update(PersonDto personDto);
+    boolean update(UUID uuid, PersonDto personDto) throws EntityNotFoundException;
 
-    boolean update(PersonsHouseRequestDto personDto);
+    boolean update(UUID uuid, PersonsHouseRequestDto personDto) throws EntityNotFoundException;
 
     boolean deleteByUuid(UUID uuid);
 

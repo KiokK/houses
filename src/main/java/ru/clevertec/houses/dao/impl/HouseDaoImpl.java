@@ -16,22 +16,21 @@ import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class HouseDaoImpl implements HouseDao {
 
     private final SessionFactory sessionFactory;
 
     @Override
+    @Transactional
     public House create(House house) {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
+        Session session = sessionFactory.getCurrentSession();
         session.persist(house);
-        session.getTransaction().commit();
-        session.close();
+
         return house;
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Optional<House> findHouseByUuid(UUID uuid) {
         Session session = sessionFactory.getCurrentSession();
         House house = session.createQuery("SELECT h FROM House h WHERE h.uuid = ?1", House.class)
@@ -40,7 +39,6 @@ public class HouseDaoImpl implements HouseDao {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<House> findAll(PaginationInfo paginationInfo) {
         Session session = sessionFactory.getCurrentSession();
         return session.createQuery("SELECT h FROM House h", House.class)
@@ -49,7 +47,6 @@ public class HouseDaoImpl implements HouseDao {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Optional<House> findWithResidentsByUuid(UUID uuid) {
         Session session = sessionFactory.getCurrentSession();
         House house = session.createQuery("SELECT h FROM House h WHERE h.uuid = ?1", House.class)

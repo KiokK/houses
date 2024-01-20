@@ -7,13 +7,13 @@ import ru.clevertec.houses.dao.HouseDao;
 import ru.clevertec.houses.dao.model.PaginationInfo;
 import ru.clevertec.houses.dto.HouseDto;
 import ru.clevertec.houses.dto.HouseResidentsDto;
+import ru.clevertec.houses.dto.response.PaginationResponseDto;
+import ru.clevertec.houses.exception.EntityNotFoundException;
 import ru.clevertec.houses.mapper.HouseMapper;
 import ru.clevertec.houses.model.House;
 import ru.clevertec.houses.service.HouseService;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -21,7 +21,6 @@ import java.util.UUID;
 public class HouseServiceImpl implements HouseService {
 
     private final HouseDao houseDao;
-
     private final HouseMapper houseMapper = Mappers.getMapper(HouseMapper.class);
 
     @Override
@@ -35,31 +34,40 @@ public class HouseServiceImpl implements HouseService {
     }
 
     @Override
-    public Optional<HouseDto> findHouseByUuid(UUID uuid) {
+    public HouseDto findHouseByUuid(UUID uuid) throws EntityNotFoundException {
         return houseDao.findHouseByUuid(uuid)
-                .map(houseMapper::toHouseDto);
+                .map(houseMapper::toHouseDto)
+                .orElseThrow(() -> new EntityNotFoundException(uuid));
     }
 
     @Override
-    public List<HouseDto> findAll(PaginationInfo paginationInfo) {
-        return houseDao.findAll(paginationInfo).stream()
+    public PaginationResponseDto findAll(PaginationInfo paginationInfo) {
+        PaginationResponseDto responseDto = new PaginationResponseDto();
+
+        responseDto.data = houseDao.findAll(paginationInfo).stream()
                 .map(houseMapper::toHouseDto)
                 .toList();
+        responseDto.pageNumber = paginationInfo.getPageNumber();
+        responseDto.pageSize = paginationInfo.getPageSize();
+
+        return responseDto;
     }
 
     @Override
-    public Optional<HouseResidentsDto> findAllResidentsByHouseUuid(UUID uuid) {
+    public HouseResidentsDto findAllResidentsByHouseUuid(UUID uuid) throws EntityNotFoundException {
         return houseDao.findWithResidentsByUuid(uuid)
                 .map(houseMapper::toHouseResidentsDto)
-                .or(Optional::empty);
+                .orElseThrow(() -> new EntityNotFoundException(uuid));
     }
 
     @Override
-    public Optional<HouseDto> update(HouseDto houseDto) {
+    public HouseDto update(UUID uuid, HouseDto houseDto) throws EntityNotFoundException {
+        houseDto.uuid = uuid;
         House house = houseMapper.toHouse(houseDto);
+
         return houseDao.update(house)
                 .map(houseMapper::toHouseDto)
-                .or(Optional::empty);
+                .orElseThrow(() -> new EntityNotFoundException(houseDto.uuid));
     }
 
     @Override

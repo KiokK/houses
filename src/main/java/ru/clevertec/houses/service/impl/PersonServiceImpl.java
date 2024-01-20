@@ -8,13 +8,13 @@ import ru.clevertec.houses.dao.model.PaginationInfo;
 import ru.clevertec.houses.dto.PersonDto;
 import ru.clevertec.houses.dto.PersonsHouseDto;
 import ru.clevertec.houses.dto.request.PersonsHouseRequestDto;
+import ru.clevertec.houses.dto.response.PaginationResponseDto;
+import ru.clevertec.houses.exception.EntityNotFoundException;
 import ru.clevertec.houses.mapper.PersonMapper;
 import ru.clevertec.houses.model.Person;
 import ru.clevertec.houses.service.PersonService;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -22,7 +22,6 @@ import java.util.UUID;
 public class PersonServiceImpl implements PersonService {
 
     private final PersonDao personDao;
-
     private final PersonMapper personMapper = Mappers.getMapper(PersonMapper.class);
 
     @Override
@@ -37,36 +36,47 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public Optional<PersonDto> findPersonByUuid(UUID uuid) {
+    public PersonDto findPersonByUuid(UUID uuid) throws EntityNotFoundException {
         return personDao.findPersonByUuid(uuid)
-                .map(personMapper::toPersonDto);
+                .map(personMapper::toPersonDto)
+                .orElseThrow(() -> new EntityNotFoundException(uuid));
     }
 
     @Override
-    public List<PersonDto> findAll(PaginationInfo paginationInfo) {
-        return personDao.findAll(paginationInfo).stream()
+    public PaginationResponseDto findAll(PaginationInfo paginationInfo) {
+        PaginationResponseDto responseDto = new PaginationResponseDto();
+
+        responseDto.data = personDao.findAll(paginationInfo).stream()
                 .map(personMapper::toPersonDto)
                 .toList();
+        responseDto.pageNumber = paginationInfo.getPageNumber();
+        responseDto.pageSize = paginationInfo.getPageSize();
+
+        return responseDto;
     }
 
     @Override
-    public Optional<PersonsHouseDto> findAllOwnHousesByPersonUuid(UUID uuid) {
+    public PersonsHouseDto findAllOwnHousesByPersonUuid(UUID uuid) throws EntityNotFoundException {
         return personDao.findWithHousesByPersonUuid(uuid)
                 .map(personMapper::toPersonsHouseDto)
-                .or(Optional::empty);
+                .orElseThrow(() -> new EntityNotFoundException(uuid));
     }
 
     @Override
-    public boolean update(PersonDto personDto) {
+    public boolean update(UUID uuid, PersonDto personDto) throws EntityNotFoundException {
+        personDto.uuid = uuid;
         Person person = personMapper.toPerson(personDto);
         person.setUpdateDate(LocalDateTime.now());
+
         return personDao.update(person);
     }
 
     @Override
-    public boolean update(PersonsHouseRequestDto personDto) {
+    public boolean update(UUID uuid, PersonsHouseRequestDto personDto) throws EntityNotFoundException {
+        personDto.personUuid = uuid;
         Person person = personMapper.toPerson(personDto);
         person.setUpdateDate(LocalDateTime.now());
+
         return personDao.updateWithOwnHouses(person);
     }
 

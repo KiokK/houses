@@ -8,4 +8,6 @@ public class Patterns {
 
     public static final String PASSPORT_NUMBER_PATTERN = "^\\d{7}$";
 
+    public static final String DATA_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+
 }

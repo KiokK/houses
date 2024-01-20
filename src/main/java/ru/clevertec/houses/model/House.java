@@ -8,6 +8,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.hibernate.annotations.JdbcType;
 import org.hibernate.type.descriptor.jdbc.UUIDJdbcType;
 
@@ -39,8 +40,9 @@ public class House extends BaseEntity {
     @Column(columnDefinition = "int", nullable = false)
     private Integer number;
 
-    @OneToMany(mappedBy = "residentOf", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @ToString.Exclude
     @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "residentOf", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     private List<Person> residents;
 
 }

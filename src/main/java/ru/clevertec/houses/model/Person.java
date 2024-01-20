@@ -1,5 +1,6 @@
 package ru.clevertec.houses.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,6 +15,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.hibernate.annotations.JdbcType;
 import org.hibernate.type.descriptor.jdbc.UUIDJdbcType;
 
@@ -21,6 +23,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import static ru.clevertec.houses.model.Patterns.DATA_FORMAT;
 import static ru.clevertec.houses.model.Patterns.NAME_PATTERN;
 import static ru.clevertec.houses.model.Patterns.PASSPORT_NUMBER_PATTERN;
 import static ru.clevertec.houses.model.Patterns.PASSPORT_SERIES_PATTERN;
@@ -54,21 +57,23 @@ public class Person extends BaseEntity  {
     @Column(name = "passport_number", length = 7, nullable = false)
     private String passportNumber;
 
-    @Column(name = "update_date", nullable = false)
     @EqualsAndHashCode.Exclude
+    @JsonFormat(pattern = DATA_FORMAT)
+    @Column(name = "update_date", nullable = false)
     private LocalDateTime updateDate;
 
-    @ManyToOne(optional = false, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "house_live_id", referencedColumnName = "id")
+    @ManyToOne(optional = false, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private House residentOf;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @JoinTable(
             name = "person_owner_house",
             joinColumns = @JoinColumn(name = "person_id"),
             inverseJoinColumns = @JoinColumn(name = "house_id")
     )
-    @EqualsAndHashCode.Exclude
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     private List<House> houses;
 
 }

@@ -14,6 +14,11 @@ public class PaginationInfo {
 
     public static final PaginationInfo DEFAULT = new PaginationInfo(0, 15);
 
+    public PaginationInfo() {
+        this.pageNumber = DEFAULT.pageNumber;
+        this.pageSize = DEFAULT.pageSize;
+    }
+
     public int getOffset() {
         return pageNumber * pageSize;
     }

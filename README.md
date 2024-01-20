@@ -26,17 +26,17 @@
 ### Houses
 
 #### 0. FindAll (GET)
-- http://localhost:8081/Gradle___ru_clevertec___houses_1_0_SNAPSHOT_war/house/find_all?pageNumber=1&pageSize=2
-- http://localhost:8081/Gradle___ru_clevertec___houses_1_0_SNAPSHOT_war/house/find_all
+- http://localhost:8081/Gradle___ru_clevertec___houses_1_0_SNAPSHOT_war/houses?pageNumber=1&pageSize=2
+- http://localhost:8081/Gradle___ru_clevertec___houses_1_0_SNAPSHOT_war/houses
 
 #### 1. FindHouseByUuid (GET)
-- http://localhost:8081/Gradle___ru_clevertec___houses_1_0_SNAPSHOT_war/house/find_by_uuid?uuid=5c786564-6331-3031-6661-111111111114
+- http://localhost:8081/Gradle___ru_clevertec___houses_1_0_SNAPSHOT_war/houses/5c786564-6331-3031-6661-111111111114
 
 #### 2. FindHouseByUuidWithResidents (GET)
-- http://localhost:8081/Gradle___ru_clevertec___houses_1_0_SNAPSHOT_war/house/find/with_residents?uuid=5c786564-6331-3031-6661-111111111114
+- http://localhost:8081/Gradle___ru_clevertec___houses_1_0_SNAPSHOT_war/houses/5c786564-6331-3031-6661-111111111114/with_residents
 
-#### 3. CreateHouse (PUT)
-- http://localhost:8081/Gradle___ru_clevertec___houses_1_0_SNAPSHOT_war/house/create
+#### 3. CreateHouse (POST)
+- http://localhost:8081/Gradle___ru_clevertec___houses_1_0_SNAPSHOT_war/houses/create
 
 - RequestBody:
 ```yaml
@@ -49,13 +49,12 @@
 }
 ```
 
-#### 4. UpdateHouse (POST)
-- http://localhost:8081/Gradle___ru_clevertec___houses_1_0_SNAPSHOT_war/house/update
+#### 4. UpdateHouse (PUT)
+- http://localhost:8081/Gradle___ru_clevertec___houses_1_0_SNAPSHOT_war/houses/5c786564-6331-3031-6661-111111111114/update
 
 RequestBody:
 ```yaml
 {
-  "uuid": "5c786564-6331-3031-6661-111111111114",
   "area": 72.3,
   "country": "Belarus",
   "city": "Minsk",
@@ -64,22 +63,22 @@ RequestBody:
 }
 ```
 
-#### 5.DeleteHouse (Нельзя удалить при наличии жильцов, а то и жить негде будет...) (DELETE)
-- http://localhost:8081/Gradle___ru_clevertec___houses_1_0_SNAPSHOT_war/house/delete?uuid=5c786564-6331-3031-6661-111111111114
+#### 5. DeleteHouse (Нельзя удалить при наличии жильцов, а то и жить негде будет...) (DELETE)
+- http://localhost:8081/Gradle___ru_clevertec___houses_1_0_SNAPSHOT_war/houses/delete?uuid=5c786564-6331-3031-6661-111111111114
 ---
 ### Person
 #### 0. FindAll (GET)
-- http://localhost:8081/Gradle___ru_clevertec___houses_1_0_SNAPSHOT_war/person/find_all
-- http://localhost:8081/Gradle___ru_clevertec___houses_1_0_SNAPSHOT_war/person/find_all?pageNumber=1&pageSize=3
+- http://localhost:8081/Gradle___ru_clevertec___houses_1_0_SNAPSHOT_war/persons
+- http://localhost:8081/Gradle___ru_clevertec___houses_1_0_SNAPSHOT_war/persons?pageNumber=1&pageSize=3
 
 #### 1. FindByUuid (GET)
-- http://localhost:8081/Gradle___ru_clevertec___houses_1_0_SNAPSHOT_war/person/find_by_uuid?uuid=5c786564-6331-3031-6661-000000000000
+- http://localhost:8081/Gradle___ru_clevertec___houses_1_0_SNAPSHOT_war/persons/5c786564-6331-3031-6661-000000000007/with_houses
 
 #### 2. FindPersonWithOwnHouses (GET)
-- http://localhost:8081/Gradle___ru_clevertec___houses_1_0_SNAPSHOT_war/person/find/with_houses?uuid=5c786564-6331-3031-6661-000000000002
+- http://localhost:8081/Gradle___ru_clevertec___houses_1_0_SNAPSHOT_war/persons/5c786564-6331-3031-6661-000000000002/with_houses
 
-#### 3. CreatePerson (PUT)
-- http://localhost:8081/Gradle___ru_clevertec___houses_1_0_SNAPSHOT_war/person/create
+#### 3. CreatePerson (POST)
+- http://localhost:8081/Gradle___ru_clevertec___houses_1_0_SNAPSHOT_war/persons/create
 
 RequestBody:
 ```yaml
@@ -93,13 +92,12 @@ RequestBody:
 }
 ```
 
-#### 4. UpdatePersonInfo (POST)
-- http://localhost:8081/Gradle___ru_clevertec___houses_1_0_SNAPSHOT_war/person/update
+#### 4. UpdatePersonInfo (PUT)
+- http://localhost:8081/Gradle___ru_clevertec___houses_1_0_SNAPSHOT_war/persons/5c786564-6331-3031-6661-000000000006/update
 
 RequestBody:
 ```yaml
 {
-    "uuid": "5c786564-6331-3031-6661-000000000000",
     "name": "Unajs",
     "surname": "Ivansov",
     "sex": "MALE",
@@ -110,25 +108,23 @@ RequestBody:
 ```
 
 #### 5. UpdatePersonHouses (PUT)
-- http://localhost:8081/Gradle___ru_clevertec___houses_1_0_SNAPSHOT_war/person/update/houses
+- http://localhost:8081/Gradle___ru_clevertec___houses_1_0_SNAPSHOT_war/persons/5c786564-6331-3031-6661-000000000006/update/houses
 1.
 ```yaml
 {
-    "personUuid": "5c786564-6331-3031-6661-000000000000",
     "houses": []
 }
 ```
 2.
 ```yaml
 {
-    "personUuid": "5c786564-6331-3031-6661-00000000000",
     "houses": 
     [
         {
             "uuid": "5c786564-6331-3031-6661-111111111111"
         },
         {
-            "uuid": "5c786564-6331-3031-6661-111111111111"
+            "uuid": "5c786564-6331-3031-6661-111111111112"
         }
     ]
 }
@@ -136,7 +132,6 @@ RequestBody:
 
 #### 6. DeletePerson (При удалении дома "открепляются")
 
-- http://localhost:8081/Gradle___ru_clevertec___houses_1_0_SNAPSHOT_war/person/delete?uuid=5c786564-6331-3031-6661-000000000009
+- http://localhost:8081/Gradle___ru_clevertec___houses_1_0_SNAPSHOT_war/persons/delete?uuid=5c786564-6331-3031-6661-000000000009
 
 ---
-

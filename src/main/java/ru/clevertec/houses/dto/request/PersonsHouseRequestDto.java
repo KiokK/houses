@@ -10,9 +10,9 @@ import java.util.UUID;
 @ToString
 public class PersonsHouseRequestDto {
 
-    @NotNull
     public UUID personUuid;
 
+    @NotNull
     public List<House> houses;
 
 }
