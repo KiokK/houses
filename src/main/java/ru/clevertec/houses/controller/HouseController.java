@@ -2,6 +2,8 @@ package ru.clevertec.houses.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,7 +20,9 @@ import ru.clevertec.houses.dao.model.PaginationInfo;
 import ru.clevertec.houses.dto.HouseDto;
 import ru.clevertec.houses.dto.HouseResidentsDto;
 import ru.clevertec.houses.dto.error.ErrorResponseDto;
+import ru.clevertec.houses.dto.response.HouseHistoryDto;
 import ru.clevertec.houses.dto.response.PaginationResponseDto;
+import ru.clevertec.houses.model.enums.HistoryType;
 import ru.clevertec.houses.service.HouseService;
 
 import java.util.UUID;
@@ -35,7 +39,25 @@ public class HouseController {
 
     @GetMapping
     public ResponseEntity<PaginationResponseDto> findAll(@ModelAttribute(value = "paginationInfo") PaginationInfo paginationInfo) {
-        return ResponseEntity.ok(houseService.findAll(paginationInfo));
+        Pageable pageable = PageRequest.of(paginationInfo.getPageNumber(), paginationInfo.getPageSize());
+
+        return ResponseEntity.ok(houseService.findAll(pageable));
+    }
+
+    @GetMapping(value = "/{uuid}/history/tenants")
+    public ResponseEntity<HouseHistoryDto> findAllWhichEverLiveInHouse(@PathVariable("uuid") UUID uuid,
+                                                                       @ModelAttribute(value = "paginationInfo") PaginationInfo paginationInfo) {
+        Pageable pageable = PageRequest.of(paginationInfo.getPageNumber(), paginationInfo.getPageSize());
+
+        return ResponseEntity.ok(houseService.findPersonsByHouseUuidAndHistoryType(uuid, pageable, HistoryType.TENANT));
+    }
+
+    @GetMapping(value = "/{uuid}/history/owners")
+    public ResponseEntity<HouseHistoryDto> findAllHistoryOwnersInHouse(@PathVariable("uuid") UUID uuid,
+                                                                       @ModelAttribute(value = "paginationInfo") PaginationInfo paginationInfo) {
+        Pageable pageable = PageRequest.of(paginationInfo.getPageNumber(), paginationInfo.getPageSize());
+
+        return ResponseEntity.ok(houseService.findPersonsByHouseUuidAndHistoryType(uuid, pageable, HistoryType.OWNER));
     }
 
     @GetMapping(value = "/{uuid}")

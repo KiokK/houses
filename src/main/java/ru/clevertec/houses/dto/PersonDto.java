@@ -8,7 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import ru.clevertec.houses.model.Gender;
+import ru.clevertec.houses.model.enums.Gender;
 
 import java.util.UUID;
 

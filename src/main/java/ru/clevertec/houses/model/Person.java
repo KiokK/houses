@@ -17,7 +17,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.hibernate.annotations.JdbcType;
+import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 import org.hibernate.type.descriptor.jdbc.UUIDJdbcType;
+import ru.clevertec.houses.model.enums.Gender;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -32,7 +34,7 @@ import static ru.clevertec.houses.model.Patterns.PASSPORT_SERIES_PATTERN;
 @Data
 @Table(name = "person")
 @EqualsAndHashCode(callSuper = true)
-public class Person extends BaseEntity  {
+public class Person extends BaseEntity {
 
     @JdbcType(UUIDJdbcType.class)
     @Column(columnDefinition = "uuid", unique = true, nullable = false)
@@ -63,7 +65,7 @@ public class Person extends BaseEntity  {
     private LocalDateTime updateDate;
 
     @JoinColumn(name = "house_live_id", referencedColumnName = "id")
-    @ManyToOne(optional = false, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(optional = false, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
     private House residentOf;
 
     @ToString.Exclude
@@ -73,7 +75,7 @@ public class Person extends BaseEntity  {
             joinColumns = @JoinColumn(name = "person_id"),
             inverseJoinColumns = @JoinColumn(name = "house_id")
     )
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
     private List<House> houses;
 
 }

@@ -13,6 +13,6 @@ public class PersonsHouseRequestDto {
     public UUID personUuid;
 
     @NotNull
-    public List<House> houses;
+    public List<UUID> houseUuids;
 
 }

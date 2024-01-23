@@ -23,8 +23,8 @@ public class BaseEntity {
     private Long id;
 
     @EqualsAndHashCode.Exclude
-    @Column(name = "create_date", nullable = false)
     @JsonFormat(pattern = DATA_FORMAT)
+    @Column(name = "create_date", updatable = false, nullable = false)
     private LocalDateTime createDate;
 
 }

@@ -1,7 +1,5 @@
 spring:
   jpa:
-    hibernate:
-      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
@@ -13,4 +11,4 @@ spring:
     password: postgres
     url: jdbc:postgresql://localhost:3254/houses
 
-#server.port: 8081
+server.port: 8081

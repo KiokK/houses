@@ -8,12 +8,16 @@ import ru.clevertec.houses.dto.PersonDto;
 import ru.clevertec.houses.model.House;
 import ru.clevertec.houses.model.Person;
 
+import java.util.List;
+
 @Mapper
 public interface HouseMapper {
 
-    House toHouse(HouseDto requestHouseDto);
+    House houseDtoToHouse(HouseDto houseDto);
 
     HouseDto toHouseDto(House house);
+
+    List<HouseDto> houseListToHouseDtoList(List<House> houseList);
 
     HouseResidentsDto toHouseResidentsDto(House house);
 
