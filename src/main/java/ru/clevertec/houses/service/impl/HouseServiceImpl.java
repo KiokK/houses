@@ -5,6 +5,10 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.clevertec.cachestarter.cache.proxy.DeleteFromCache;
+import ru.clevertec.cachestarter.cache.proxy.GetFromCache;
+import ru.clevertec.cachestarter.cache.proxy.PostFromCache;
+import ru.clevertec.cachestarter.cache.proxy.PutToCache;
 import ru.clevertec.houses.dao.HouseDao;
 import ru.clevertec.houses.dao.PersonDao;
 import ru.clevertec.houses.dto.HouseDto;
@@ -34,6 +38,7 @@ public class HouseServiceImpl implements HouseService {
     private final PersonMapper personMapper = Mappers.getMapper(PersonMapper.class);
 
     @Override
+    @PutToCache
     @Transactional
     public HouseDto create(HouseDto houseDto) {
         House house = houseMapper.houseDtoToHouse(houseDto);
@@ -45,6 +50,7 @@ public class HouseServiceImpl implements HouseService {
     }
 
     @Override
+    @GetFromCache
     public HouseDto findHouseByUuid(UUID uuid) throws EntityNotFoundException {
         return houseDao.findByUuid(uuid)
                 .map(houseMapper::toHouseDto)
@@ -85,6 +91,7 @@ public class HouseServiceImpl implements HouseService {
 
     @Override
     @Transactional
+    @PostFromCache
     public HouseDto update(UUID uuid, HouseDto houseDto) throws EntityNotFoundException {
         houseDto.uuid = uuid;
         House house = houseMapper.houseDtoToHouse(houseDto);
@@ -100,6 +107,7 @@ public class HouseServiceImpl implements HouseService {
 
     @Override
     @Transactional
+    @DeleteFromCache
     public boolean deleteByUuid(UUID uuid) {
         return houseDao.deleteByUuid(uuid) == 1;
     }

@@ -99,13 +99,9 @@ public class PersonController {
 
     @PutMapping(value = "/{uuid}/update")
     public ResponseEntity<?> updatePersonInfoDto(@PathVariable("uuid") UUID uuid, @Valid @RequestBody PersonDto personDto) {
-        boolean isUpdated = personService.update(uuid, personDto);
-        if (isUpdated) {
-            return ResponseEntity.noContent().build();
-        }
+        PersonDto updatedPerson = personService.update(uuid, personDto);
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(new ErrorResponseDto(String.format(M_NOT_UPDATED, "requestDto", personDto), ENTITY_NOT_MODIFIED));
+        return ResponseEntity.ok(updatedPerson);
     }
 
     @DeleteMapping(value = "/delete")

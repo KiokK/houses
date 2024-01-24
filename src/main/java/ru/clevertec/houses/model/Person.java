@@ -49,6 +49,8 @@ public class Person extends BaseEntity {
     private String surname;
 
     @Enumerated(EnumType.STRING)
+    @JdbcType(PostgreSQLEnumJdbcType.class)
+    @Column(columnDefinition = "gender", nullable = false)
     private Gender sex;
 
     @Pattern(regexp = PASSPORT_SERIES_PATTERN)

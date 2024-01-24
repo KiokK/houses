@@ -10,6 +10,7 @@ version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 configurations {
@@ -36,6 +37,8 @@ dependencies {
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+    implementation 'ru.clevertec:cache-starter:1.0.0'
 
     implementation "org.mapstruct:mapstruct:1.5.5.Final"
     annotationProcessor "org.mapstruct:mapstruct-processor:1.5.5.Final"

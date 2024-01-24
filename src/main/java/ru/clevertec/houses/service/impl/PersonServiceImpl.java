@@ -5,6 +5,10 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.clevertec.cachestarter.cache.proxy.DeleteFromCache;
+import ru.clevertec.cachestarter.cache.proxy.GetFromCache;
+import ru.clevertec.cachestarter.cache.proxy.PostFromCache;
+import ru.clevertec.cachestarter.cache.proxy.PutToCache;
 import ru.clevertec.houses.dao.HouseDao;
 import ru.clevertec.houses.dao.PersonDao;
 import ru.clevertec.houses.dto.PersonDto;
@@ -35,6 +39,7 @@ public class PersonServiceImpl implements PersonService {
     private final HouseMapper houseMapper = Mappers.getMapper(HouseMapper.class);
 
     @Override
+    @PutToCache
     @Transactional
     public PersonDto create(PersonDto personDto) throws EntityNotFoundException {
         Person person = personMapper.toPerson(personDto);
@@ -52,6 +57,7 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
+    @GetFromCache
     public PersonDto findPersonByUuid(UUID uuid) throws EntityNotFoundException {
         return personDao.findByUuid(uuid)
                 .map(personMapper::personToPersonDto)
@@ -92,8 +98,9 @@ public class PersonServiceImpl implements PersonService {
 
 
     @Override
+    @PostFromCache
     @Transactional
-    public boolean update(UUID uuid, PersonDto personDto) throws EntityNotFoundException {
+    public PersonDto update(UUID uuid, PersonDto personDto) throws EntityNotFoundException {
         personDto.uuid = uuid;
         Person person = personMapper.toPerson(personDto);
         person.setUpdateDate(LocalDateTime.now());
@@ -106,9 +113,9 @@ public class PersonServiceImpl implements PersonService {
         House newPersonHouse = houseDao.findByUuid(newHouseUuid)
                 .orElseThrow(() -> new EntityNotFoundException(newHouseUuid));
         person.setResidentOf(newPersonHouse);
-        personDao.save(person);
+        person = personDao.save(person);
 
-        return true;
+        return personMapper.personToPersonDto(person);
     }
 
     @Override
@@ -132,6 +139,7 @@ public class PersonServiceImpl implements PersonService {
      */
     @Override
     @Transactional
+    @DeleteFromCache
     public boolean deleteByUuid(UUID uuid) {
         return personDao.deletePersonByUuid(uuid) == 1;
     }

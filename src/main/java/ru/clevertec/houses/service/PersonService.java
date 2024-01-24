@@ -23,7 +23,7 @@ public interface PersonService {
 
     PersonHistoryDto findHousesByPersonUuidAndHistoryType(UUID personUuid, Pageable pageable, HistoryType historyType) throws EntityNotFoundException;
 
-    boolean update(UUID uuid, PersonDto personDto) throws EntityNotFoundException;
+    PersonDto update(UUID uuid, PersonDto personDto) throws EntityNotFoundException;
 
     boolean update(UUID uuid, PersonsHouseRequestDto personDto) throws EntityNotFoundException;
 
