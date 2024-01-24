@@ -1,0 +1,16 @@
+{
+  "properties": [
+    {
+      "name": "cache.algorithm-type",
+      "type": "java.lang.String"
+    },
+    {
+      "name": "cache.capacity",
+      "type": "java.lang.Integer"
+    },
+    {
+      "name": "cache.key-field-name",
+      "type": "java.lang.String"
+    }
+  ]
+}
