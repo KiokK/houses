@@ -2,6 +2,7 @@ package ru.clevertec.houses.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.ReportingPolicy;
 import ru.clevertec.houses.dto.HouseDto;
 import ru.clevertec.houses.dto.HouseResidentsDto;
 import ru.clevertec.houses.dto.PersonDto;
@@ -10,7 +11,7 @@ import ru.clevertec.houses.model.Person;
 
 import java.util.List;
 
-@Mapper
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface HouseMapper {
 
     House houseDtoToHouse(HouseDto houseDto);

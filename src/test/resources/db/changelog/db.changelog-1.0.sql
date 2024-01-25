@@ -1,6 +1,3 @@
-drop schema if exists public cascade ;
-create schema public;
-
 CREATE TYPE gender AS ENUM ('MALE', 'FEMALE');
 CREATE TYPE relation_house_type AS ENUM ('OWNER', 'TENANT', 'NOT_OWNER');
 
@@ -46,7 +43,6 @@ CREATE TABLE IF NOT EXISTS house_history
     create_date TIMESTAMP   NOT NULL DEFAULT now()
 );
 
-
 CREATE OR REPLACE FUNCTION check_person_update_house()
     RETURNS trigger AS $$
 BEGIN
@@ -83,22 +79,22 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE TRIGGER check_update_person
+CREATE TRIGGER check_update_person
     AFTER UPDATE ON person
     FOR EACH ROW
 EXECUTE FUNCTION check_person_update_house();
 
-CREATE OR REPLACE TRIGGER check_insert_person
+CREATE TRIGGER check_insert_person
     AFTER INSERT ON person
     FOR EACH ROW
 EXECUTE FUNCTION check_person_insert_house();
 
-CREATE OR REPLACE TRIGGER check_update_person_owner_house
+CREATE TRIGGER check_update_person_owner_house
     AFTER INSERT ON person_owner_house
     FOR EACH ROW
 EXECUTE FUNCTION check_person_owner_house_insert();
 
-CREATE OR REPLACE TRIGGER check_delete_person_owner_house
+CREATE TRIGGER check_delete_person_owner_house
     AFTER DELETE ON person_owner_house
     FOR EACH ROW
 EXECUTE FUNCTION check_person_owner_house_delete();

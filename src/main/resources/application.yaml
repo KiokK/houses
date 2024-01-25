@@ -5,6 +5,8 @@ spring:
       hibernate:
         format_sql: true
     open-in-view: false
+    hibernate:
+      ddl-auto: none
   datasource:
     driver-class-name: org.postgresql.Driver
     username: postgres
