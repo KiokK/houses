@@ -1,5 +1,7 @@
 package ru.clevertec.houses.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -32,6 +34,7 @@ import static ru.clevertec.houses.dto.error.ErrorCodeConstants.ENTITY_NOT_MODIFI
 import static ru.clevertec.houses.dto.error.ErrorMessagesConstants.M_NOT_DELETED;
 import static ru.clevertec.houses.dto.error.ErrorMessagesConstants.M_NOT_UPDATED;
 
+@Tag(name = "Person")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/persons")
@@ -39,29 +42,33 @@ public class PersonController {
 
     private final PersonService personService;
 
+    @Operation(description = "Get all persons with pagination")
     @GetMapping
-    public ResponseEntity<PaginationResponseDto> findAll(@ModelAttribute(value = "paginationInfo") PaginationInfo paginationInfo) {
+    public ResponseEntity<PaginationResponseDto> findAll(@Valid @ModelAttribute(value = "paginationInfo") PaginationInfo paginationInfo) {
         Pageable pageable = PageRequest.of(paginationInfo.getPageNumber(), paginationInfo.getPageSize());
 
         return ResponseEntity.ok(personService.findAll(pageable));
     }
 
+    @Operation(description = "Get all houses in which person live with pagination")
     @GetMapping(value = "/{uuid}/history/housing")
     public ResponseEntity<PersonHistoryDto> findAllHousesInWhichEverLive(@PathVariable("uuid") UUID uuid,
-                                                                         @ModelAttribute(value = "paginationInfo") PaginationInfo paginationInfo) {
+                                                                         @Valid @ModelAttribute(value = "paginationInfo") PaginationInfo paginationInfo) {
         Pageable pageable = PageRequest.of(paginationInfo.getPageNumber(), paginationInfo.getPageSize());
 
         return ResponseEntity.ok(personService.findHousesByPersonUuidAndHistoryType(uuid, pageable, HistoryType.TENANT));
     }
 
+    @Operation(description = "Get history about person's ownerships")
     @GetMapping(value = "/{uuid}/history/ownerships")
     public ResponseEntity<PersonHistoryDto> historyAboutOwnerships(@PathVariable("uuid") UUID uuid,
-                                                                   @ModelAttribute(value = "paginationInfo") PaginationInfo paginationInfo) {
+                                                                   @Valid @ModelAttribute(value = "paginationInfo") PaginationInfo paginationInfo) {
         Pageable pageable = PageRequest.of(paginationInfo.getPageNumber(), paginationInfo.getPageSize());
 
         return ResponseEntity.ok(personService.findHousesByPersonUuidAndHistoryType(uuid, pageable, HistoryType.OWNER));
     }
 
+    @Operation(description = "Get person by uuid")
     @GetMapping(value = "/{uuid}")
     public ResponseEntity<?> findPersonByUuid(@PathVariable("uuid") UUID uuid) {
         PersonDto dto = personService.findPersonByUuid(uuid);
@@ -69,6 +76,7 @@ public class PersonController {
         return ResponseEntity.ok(dto);
     }
 
+    @Operation(description = "Get person with houses")
     @GetMapping(value = "/{uuid}/with_houses")
     public ResponseEntity<?> findAllOwnHousesByPersonUuid(@PathVariable("uuid") UUID uuid) {
         PersonsHouseDto dto = personService.findAllOwnHousesByPersonUuid(uuid);
@@ -76,7 +84,7 @@ public class PersonController {
         return ResponseEntity.ok(dto);
     }
 
-
+    @Operation(description = "Create person")
     @PostMapping(value = "/create")
     public ResponseEntity<?> createPerson(@Valid @RequestBody PersonDto personDto) {
         PersonDto createdPersonDto = personService.create(personDto);
@@ -85,6 +93,7 @@ public class PersonController {
                 .body(createdPersonDto);
     }
 
+    @Operation(description = "Update person houses")
     @PutMapping(value = "/{uuid}/update/houses")
     public ResponseEntity<?> updatePersonWithHousesDto(@PathVariable("uuid") UUID uuid,
                                                        @Valid @RequestBody PersonsHouseRequestDto personsHouseDto) {
@@ -97,6 +106,7 @@ public class PersonController {
                 .body(new ErrorResponseDto(String.format(M_NOT_UPDATED, "requestDto", personsHouseDto), ENTITY_NOT_MODIFIED));
     }
 
+    @Operation(description = "Update person info")
     @PutMapping(value = "/{uuid}/update")
     public ResponseEntity<?> updatePersonInfoDto(@PathVariable("uuid") UUID uuid, @Valid @RequestBody PersonDto personDto) {
         PersonDto updatedPerson = personService.update(uuid, personDto);
@@ -104,6 +114,7 @@ public class PersonController {
         return ResponseEntity.ok(updatedPerson);
     }
 
+    @Operation(description = "Delete person by uuid")
     @DeleteMapping(value = "/delete")
     public ResponseEntity<?> deletePersonByUuid(@RequestParam("uuid") UUID uuid) {
         boolean isDeleted = personService.deleteByUuid(uuid);
