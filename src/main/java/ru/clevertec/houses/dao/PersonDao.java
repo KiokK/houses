@@ -22,9 +22,7 @@ public interface PersonDao extends JpaRepository<Person, Long> {
     @Query("SELECT p FROM Person p JOIN FETCH p.houses WHERE p.uuid = :uuid")
     Optional<Person> findWithHousesByPersonUuid(@Param("uuid") UUID uuid);
 
-    @Query(value = "SELECT p.* FROM house h JOIN house_history hh ON hh.house_id = h.id JOIN person p ON p.id = hh.person_id " +
-            "WHERE h.uuid = :houseUuid AND hh.type = CAST(:#{#historyType?.name()} as relation_house_type)", nativeQuery = true)
-    List<Person> findAllPersonsByHouseUuidAndHistoryType(@Param("houseUuid") UUID houseUuid, Pageable pageable, @Param("historyType") HistoryType historyType);
+    List<Person> findAllByHouseHistory_house_uuidAndHouseHistory_type(UUID houseHistory_house_uuid, HistoryType houseHistory_type, Pageable pageable);
 
     @Modifying
     @Query("delete from Person p where p.uuid=:uuid")

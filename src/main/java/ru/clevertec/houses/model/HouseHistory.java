@@ -9,6 +9,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.JdbcType;
+import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 import ru.clevertec.houses.model.enums.HistoryType;
 
 @Data
@@ -26,6 +28,7 @@ public class HouseHistory extends BaseEntity {
     private Person person;
 
     @Enumerated(EnumType.STRING)
+    @JdbcType(PostgreSQLEnumJdbcType.class)
     @Column(columnDefinition = "relation_house_type")
     private HistoryType type;
 

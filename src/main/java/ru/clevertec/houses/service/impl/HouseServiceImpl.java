@@ -76,7 +76,7 @@ public class HouseServiceImpl implements HouseService {
         historyResponse.houseUuid = houseUuid;
         historyResponse.pageNumber = pageable.getPageNumber();
         historyResponse.pageSize = pageable.getPageSize();
-        List<Person> foundPersons = personDao.findAllPersonsByHouseUuidAndHistoryType(houseUuid, pageable, historyType);
+        List<Person> foundPersons = personDao.findAllByHouseHistory_house_uuidAndHouseHistory_type(houseUuid, historyType, pageable);
         historyResponse.personDtoList = personMapper.personListToPersonDtoList(foundPersons);
 
         return historyResponse;

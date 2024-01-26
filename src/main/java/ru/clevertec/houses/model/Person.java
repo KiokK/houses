@@ -11,6 +11,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
@@ -79,5 +80,10 @@ public class Person extends BaseEntity {
     )
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
     private List<House> houses;
+
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
+    private List<HouseHistory> houseHistory;
 
 }

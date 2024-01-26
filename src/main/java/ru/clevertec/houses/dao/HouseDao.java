@@ -23,9 +23,7 @@ public interface HouseDao extends JpaRepository<House, Long> {
     @Query("SELECT h FROM House h JOIN FETCH h.residents WHERE h.uuid = :uuid")
     Optional<House> findWithResidentsByUuid(@Param("uuid") UUID uuid);
 
-    @Query(value = "SELECT h.* FROM house h JOIN house_history hh ON hh.house_id = h.id JOIN person p ON p.id = hh.person_id " +
-            "WHERE p.uuid = :personUuid AND hh.type = CAST(:#{#historyType?.name()} as relation_house_type)", nativeQuery = true)
-    List<House> findAllHousesByPersonUuidAndHistoryType(@Param("personUuid") UUID personUuid, Pageable pageable, @Param("historyType") HistoryType historyType);
+    List<House> findAllByHouseHistory_person_uuidAndHouseHistory_type(UUID houseHistory_person_uuid, HistoryType houseHistory_type, Pageable pageable);
 
     int deleteByUuid(UUID uuid);
 
