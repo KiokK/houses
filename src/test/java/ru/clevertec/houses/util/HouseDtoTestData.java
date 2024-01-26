@@ -88,6 +88,7 @@ public class HouseDtoTestData {
                 .number(2)
                 .build();
     }
+
     public static List<HouseDto> getListHouseDto() {
         return Arrays.asList(getAvanHouse(), getBvanHouse(), getCvanHouse(), getDvanHouse(), getEvanHouse(), getFvanHouse());
     }

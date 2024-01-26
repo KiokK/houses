@@ -33,7 +33,6 @@ public class PersonDtoTestData {
                 .passportSeries("QK");
     }
 
-
     public static PersonDto getAvan() {
         return PersonDto.builder()
                 .name("Avan")
@@ -45,6 +44,7 @@ public class PersonDtoTestData {
                 .passportSeries("QK")
                 .build();
     }
+
     public static PersonDto getBvan() {
         return PersonDto.builder()
                 .name("Bvan")
@@ -56,6 +56,7 @@ public class PersonDtoTestData {
                 .passportSeries("QK")
                 .build();
     }
+
     public static PersonDto getCvan() {
         return PersonDto.builder()
                 .name("Cvan")
@@ -67,6 +68,7 @@ public class PersonDtoTestData {
                 .passportSeries("QK")
                 .build();
     }
+
     public static PersonDto getDvan() {
         return PersonDto.builder()
                 .name("Dvan")
@@ -78,6 +80,7 @@ public class PersonDtoTestData {
                 .passportSeries("QK")
                 .build();
     }
+
     public static PersonDto getEva() {
         return PersonDto.builder()
                 .name("Eva")
@@ -89,6 +92,7 @@ public class PersonDtoTestData {
                 .passportSeries("QK")
                 .build();
     }
+
     public static PersonDto getFvan() {
         return PersonDto.builder()
                 .name("Fvan")
@@ -104,4 +108,5 @@ public class PersonDtoTestData {
     public static List<PersonDto> getListPersonDto() {
         return Arrays.asList(getAvan(), getBvan(), getCvan(), getDvan(), getEva(), getFvan());
     }
+
 }

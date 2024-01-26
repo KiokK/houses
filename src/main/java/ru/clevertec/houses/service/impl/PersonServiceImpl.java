@@ -96,7 +96,6 @@ public class PersonServiceImpl implements PersonService {
         return historyResponse;
     }
 
-
     @Override
     @PostFromCache
     @Transactional
