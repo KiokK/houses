@@ -1,9 +1,10 @@
 package ru.clevertec.houses.service.impl;
 
+import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.test.context.TestConstructor;
 import ru.clevertec.cachestarter.cache.handler.AlgorithmCacheHandler;
 import ru.clevertec.houses.dao.HouseDao;
 import ru.clevertec.houses.dto.HouseDto;
@@ -25,20 +26,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static ru.clevertec.houses.util.HouseDtoTestData.getListHouseDto;
-import static ru.clevertec.houses.util.PersonDtoTestData.getListPersonDto;
+import static ru.clevertec.houses.util.dto.HouseDtoTestData.getListHouseDto;
+import static ru.clevertec.houses.util.dto.PersonDtoTestData.getListPersonDto;
 
 @SpringBootTest
+@RequiredArgsConstructor
+@TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
 class ServicesCachingIntegrationTest extends PostgresqlContainerInitializer {
 
-    @Autowired
-    private HouseDao houseRepository;
+    private final HouseDao houseRepository;
 
-    @Autowired
-    private PersonService personService;
-
-    @Autowired
-    private HouseService houseService;
+    private final PersonService personService;
+    private final HouseService houseService;
 
     @SpyBean
     private AlgorithmCacheHandler<Object, Object> cacheHandler;

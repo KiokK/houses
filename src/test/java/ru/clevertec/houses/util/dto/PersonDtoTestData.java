@@ -1,4 +1,4 @@
-package ru.clevertec.houses.util;
+package ru.clevertec.houses.util.dto;
 
 import ru.clevertec.houses.dto.PersonDto;
 import ru.clevertec.houses.model.enums.Gender;

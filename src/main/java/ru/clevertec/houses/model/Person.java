@@ -67,8 +67,10 @@ public class Person extends BaseEntity {
     @Column(name = "update_date", nullable = false)
     private LocalDateTime updateDate;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @ManyToOne(optional = false, cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinColumn(name = "house_live_id", referencedColumnName = "id")
-    @ManyToOne(optional = false, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
     private House residentOf;
 
     @ToString.Exclude
@@ -78,7 +80,7 @@ public class Person extends BaseEntity {
             joinColumns = @JoinColumn(name = "person_id"),
             inverseJoinColumns = @JoinColumn(name = "house_id")
     )
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
     private List<House> houses;
 
     @ToString.Exclude

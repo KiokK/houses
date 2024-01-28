@@ -17,6 +17,7 @@ public interface PersonDao extends JpaRepository<Person, Long> {
 
     Optional<Person> findByUuid(UUID uuid);
 
+    @Query("SELECT p FROM Person p JOIN FETCH p.residentOf")
     Page<Person> findAll(Pageable pageable);
 
     @Query("SELECT p FROM Person p JOIN FETCH p.houses WHERE p.uuid = :uuid")
