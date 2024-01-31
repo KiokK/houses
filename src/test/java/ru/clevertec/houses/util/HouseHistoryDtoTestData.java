@@ -1,4 +1,4 @@
-package ru.clevertec.houses.util.dto;
+package ru.clevertec.houses.util;
 
 import org.springframework.data.domain.Pageable;
 import ru.clevertec.houses.dto.PersonDto;

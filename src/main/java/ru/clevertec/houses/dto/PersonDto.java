@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import ru.clevertec.houses.model.enums.Gender;
@@ -18,6 +19,7 @@ import static ru.clevertec.houses.model.Patterns.PASSPORT_SERIES_PATTERN;
 
 @Builder
 @ToString
+@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
 public class PersonDto {

@@ -1,4 +1,4 @@
-package ru.clevertec.houses.util.dto;
+package ru.clevertec.houses.util;
 
 import ru.clevertec.houses.dto.PersonDto;
 import ru.clevertec.houses.model.enums.Gender;
@@ -105,8 +105,12 @@ public class PersonDtoTestData {
                 .build();
     }
 
-    public static List<PersonDto> getListPersonDto() {
+    public static List<PersonDto> getListPersonDtoSize6() {
         return Arrays.asList(getAvan(), getBvan(), getCvan(), getDvan(), getEva(), getFvan());
+    }
+
+    public static List<PersonDto> getListPersonDtoSize2() {
+        return Arrays.asList(getAvan(), getBvan());
     }
 
 }

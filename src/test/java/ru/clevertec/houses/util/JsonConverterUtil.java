@@ -5,7 +5,7 @@ import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 
-public class JsonConverter {
+public class JsonConverterUtil {
 
     private static final ObjectMapper mapper = new ObjectMapper();
 

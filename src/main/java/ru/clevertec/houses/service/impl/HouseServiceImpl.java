@@ -72,6 +72,9 @@ public class HouseServiceImpl implements HouseService {
 
     @Override
     public HouseHistoryDto findPersonsByHouseUuidAndHistoryType(UUID houseUuid, Pageable pageable, HistoryType historyType) throws EntityNotFoundException {
+        houseDao.findByUuid(houseUuid)
+                .orElseThrow(() -> new EntityNotFoundException(houseUuid));
+
         HouseHistoryDto historyResponse = new HouseHistoryDto();
         historyResponse.houseUuid = houseUuid;
         historyResponse.pageNumber = pageable.getPageNumber();

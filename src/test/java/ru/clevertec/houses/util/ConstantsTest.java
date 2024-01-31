@@ -1,5 +1,6 @@
 package ru.clevertec.houses.util;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class ConstantsTest {
@@ -29,12 +30,17 @@ public class ConstantsTest {
     public static final int PAGE_SIZE_6 = 6;
     public static final int PAGE_NUMBER_0 = 0;
 
+    public static final Long DEFAULT_ID_1 = 1L;
+    public static final Long DEFAULT_ID_2 = 2L;
+    public static final Long DEFAULT_ID_3 = 3L;
+    public static final LocalDateTime DEFAULT_CREATED_TIME = LocalDateTime.of(2022, 10, 2, 10, 2,2);
+
     public static final String EMPTY_STRING = "";
-
     public static final String INCORRECT_PASSPORT_SERIES = "SSS";
-
     public static final String INCORRECT_PASSPORT_NUMBER_SHORT = "123456";
-
     public static final String INCORRECT_PASSPORT_NUMBER_LONG = "12345678";
+
+    public static final String POSITIVE_INT_REGEX = "^[1-9]\\d*$";
+    public static final String DEFAULT_ERROR_MESSAGE = "Test data error message!";
 
 }

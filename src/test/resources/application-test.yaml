@@ -5,6 +5,8 @@ spring:
       ddl-auto: none
 
   datasource:
+    url: jdbc:tc:postgresql:15.1:///test
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
     username: test
     password: test
 

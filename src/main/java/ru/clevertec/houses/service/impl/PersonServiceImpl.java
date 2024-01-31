@@ -86,6 +86,9 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public PersonHistoryDto findHousesByPersonUuidAndHistoryType(UUID personUuid, Pageable pageable, HistoryType historyType) throws EntityNotFoundException {
+        personDao.findByUuid(personUuid)
+                .orElseThrow(() -> new EntityNotFoundException(personUuid));
+
         PersonHistoryDto historyResponse = new PersonHistoryDto();
         historyResponse.personUuid = personUuid;
         historyResponse.pageNumber = pageable.getPageNumber();

@@ -43,13 +43,13 @@ import static ru.clevertec.houses.util.ConstantsTest.NOT_EXISTS_UUID;
 import static ru.clevertec.houses.util.ConstantsTest.PAGE_NUMBER_0;
 import static ru.clevertec.houses.util.ConstantsTest.PAGE_SIZE_6;
 import static ru.clevertec.houses.util.ConstantsTest.UUID_H_AVAN;
-import static ru.clevertec.houses.util.dto.HouseDtoTestData.getAvanHouse;
-import static ru.clevertec.houses.util.dto.HouseDtoTestData.getListHouseDto;
-import static ru.clevertec.houses.util.dto.HouseHistoryDtoTestData.createHouseHistoryDto;
-import static ru.clevertec.houses.util.dto.HouseResidentsDtoTestData.getAvanHouseResidentsDto;
-import static ru.clevertec.houses.util.JsonConverter.toJsonString;
-import static ru.clevertec.houses.util.dto.PaginationResponseDtoTestData.createResponse;
-import static ru.clevertec.houses.util.dto.PersonDtoTestData.getListPersonDto;
+import static ru.clevertec.houses.util.HouseDtoTestData.getAvanHouseDto;
+import static ru.clevertec.houses.util.HouseDtoTestData.getListHouseDto;
+import static ru.clevertec.houses.util.HouseHistoryDtoTestData.createHouseHistoryDto;
+import static ru.clevertec.houses.util.HouseResidentsDtoTestData.getAvanHouseResidentsDto;
+import static ru.clevertec.houses.util.JsonConverterUtil.toJsonString;
+import static ru.clevertec.houses.util.PaginationResponseDtoTestData.createResponse;
+import static ru.clevertec.houses.util.PersonDtoTestData.getListPersonDtoSize6;
 
 @WebMvcTest(HouseController.class)
 @RequiredArgsConstructor
@@ -130,7 +130,7 @@ class HouseControllerTest {
         @SneakyThrows
         void checkFindAllWhichEverLiveInHouseCorrect() {
             //given
-            List<PersonDto> testPersonDtoList = getListPersonDto();
+            List<PersonDto> testPersonDtoList = getListPersonDtoSize6();
             Pageable pageable = PageRequest.of(PAGE_NUMBER_0, PAGE_SIZE_6);
             HouseHistoryDto houseHistoryAboutTenantsDto = createHouseHistoryDto(UUID_H_AVAN, pageable, testPersonDtoList);
 
@@ -175,7 +175,7 @@ class HouseControllerTest {
         @SneakyThrows
         void checkFindAllHistoryOwnersInHouseShouldReturnCorrectResponse() {
             //given
-            List<PersonDto> testPersonDtoList = getListPersonDto();
+            List<PersonDto> testPersonDtoList = getListPersonDtoSize6();
             Pageable pageable = PageRequest.of(PAGE_NUMBER_0, PAGE_SIZE_6);
             HouseHistoryDto houseHistoryAboutTenantsDto = createHouseHistoryDto(UUID_H_AVAN, pageable, testPersonDtoList);
 
@@ -220,7 +220,7 @@ class HouseControllerTest {
         @SneakyThrows
         void checkFindHouseByUuidShouldReturnCorrectResponse() {
             //given
-            HouseDto testDto = getAvanHouse();
+            HouseDto testDto = getAvanHouseDto();
 
             //when
             when(houseService.findHouseByUuid(UUID_H_AVAN))
@@ -309,10 +309,10 @@ class HouseControllerTest {
         @SneakyThrows
         void checkCreateHouseDtoShouldReturnCorrectResponse() {
             //given
-            HouseDto testDto = getAvanHouse();
+            HouseDto testDto = getAvanHouseDto();
             testDto.uuid = null;
             String jsonHouseDtoRequest = toJsonString(testDto);
-            HouseDto expectedDto = getAvanHouse();
+            HouseDto expectedDto = getAvanHouseDto();
 
             //when
             when(houseService.create(testDto))
@@ -338,9 +338,9 @@ class HouseControllerTest {
         void checkUpdateHouseDtoShouldReturnCorrectResponse() {
             //given
             UUID testUuid = UUID_H_AVAN;
-            HouseDto testDto = getAvanHouse();
+            HouseDto testDto = getAvanHouseDto();
             String jsonHouseDtoRequest = toJsonString(testDto);
-            HouseDto expectedDto = getAvanHouse();
+            HouseDto expectedDto = getAvanHouseDto();
 
             //when
             when(houseService.update(testUuid, testDto))
