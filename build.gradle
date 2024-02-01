@@ -3,6 +3,7 @@ plugins {
     id 'war'
     id 'org.springframework.boot' version '3.2.1'
     id 'io.spring.dependency-management' version '1.1.4'
+    id 'io.freefair.lombok' version '8.4'
 }
 
 group 'ru.clevertec'
@@ -26,11 +27,18 @@ tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
 
+ext {
+    mapstractVersion = '1.5.5.Final'
+    openApiVersion = '2.2.0'
+    customCacheStarterVersion = '1.0.0'
+}
+
 dependencies {
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstractVersion}"
 
     runtimeOnly 'org.postgresql:postgresql'
+    implementation 'org.liquibase:liquibase-core'
 
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -38,24 +46,21 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
-    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
-    implementation 'ru.clevertec:cache-starter:1.0.0'
+    implementation "ru.clevertec:cache-starter:${customCacheStarterVersion}"
 
-    implementation "org.mapstruct:mapstruct:1.5.5.Final"
-    annotationProcessor "org.mapstruct:mapstruct-processor:1.5.5.Final"
-    annotationProcessor "org.projectlombok:lombok-mapstruct-binding:0.2.0"
+    implementation "org.mapstruct:mapstruct:${mapstractVersion}"
 
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
+    implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${openApiVersion}"
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.liquibase:liquibase-core'
     testImplementation 'org.testcontainers:postgresql'
 }
 
 test {
     useJUnitPlatform()
 }
+
 war {
     duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
 }

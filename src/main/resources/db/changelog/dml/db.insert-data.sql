@@ -1,3 +1,6 @@
+-- liquibase formatted sql
+
+-- changeset Kihtenko_Olga:data-001
 INSERT INTO house (area, number, create_date, uuid, city, country, street)
 VALUES (123.3, 1, '2024-01-13 18:06:03.550886', '5c786564-6331-3031-6661-111111111111', 'Minsk', 'Belarus', 'Simon'),
        (72.3, 2, '2024-01-13 18:06:03.550886', '5c786564-6331-3031-6661-111111111112', 'Minsk', 'Belarus', 'Pobeda'),

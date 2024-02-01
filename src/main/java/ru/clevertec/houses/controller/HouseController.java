@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ru.clevertec.houses.dao.model.PaginationInfo;
+import ru.clevertec.houses.dto.PaginationInfoDto;
 import ru.clevertec.houses.dto.HouseDto;
 import ru.clevertec.houses.dto.HouseResidentsDto;
 import ru.clevertec.houses.dto.error.ErrorResponseDto;
@@ -42,7 +42,7 @@ public class HouseController {
 
     @Operation(description = "Get all persons with pagination")
     @GetMapping
-    public ResponseEntity<PaginationResponseDto> findAll(@Valid @ModelAttribute(value = "paginationInfo") PaginationInfo paginationInfo) {
+    public ResponseEntity<PaginationResponseDto> findAll(@Valid @ModelAttribute PaginationInfoDto paginationInfo) {
         Pageable pageable = PageRequest.of(paginationInfo.getPageNumber(), paginationInfo.getPageSize());
 
         return ResponseEntity.ok(houseService.findAll(pageable));
@@ -50,8 +50,8 @@ public class HouseController {
 
     @Operation(description = "Get history about all persons who live in house with pagination")
     @GetMapping(value = "/{uuid}/history/tenants")
-    public ResponseEntity<HouseHistoryDto> findAllWhichEverLiveInHouse(@PathVariable("uuid") UUID uuid,
-                                                                       @Valid @ModelAttribute(value = "paginationInfo") PaginationInfo paginationInfo) {
+    public ResponseEntity<HouseHistoryDto> findAllWhichEverLiveInHouse(@PathVariable UUID uuid,
+                                                                       @Valid @ModelAttribute PaginationInfoDto paginationInfo) {
         Pageable pageable = PageRequest.of(paginationInfo.getPageNumber(), paginationInfo.getPageSize());
 
         return ResponseEntity.ok(houseService.findPersonsByHouseUuidAndHistoryType(uuid, pageable, HistoryType.TENANT));
@@ -59,8 +59,8 @@ public class HouseController {
 
     @Operation(description = "Get history about all persons-owners in house with pagination")
     @GetMapping(value = "/{uuid}/history/owners")
-    public ResponseEntity<HouseHistoryDto> findAllHistoryOwnersInHouse(@PathVariable("uuid") UUID uuid,
-                                                                       @Valid @ModelAttribute(value = "paginationInfo") PaginationInfo paginationInfo) {
+    public ResponseEntity<HouseHistoryDto> findAllHistoryOwnersInHouse(@PathVariable UUID uuid,
+                                                                       @Valid @ModelAttribute PaginationInfoDto paginationInfo) {
         Pageable pageable = PageRequest.of(paginationInfo.getPageNumber(), paginationInfo.getPageSize());
 
         return ResponseEntity.ok(houseService.findPersonsByHouseUuidAndHistoryType(uuid, pageable, HistoryType.OWNER));
@@ -68,7 +68,7 @@ public class HouseController {
 
     @Operation(description = "Get house by uuid")
     @GetMapping(value = "/{uuid}")
-    public ResponseEntity<?> findHouseByUuid(@PathVariable("uuid") UUID uuid) {
+    public ResponseEntity<?> findHouseByUuid(@PathVariable UUID uuid) {
         HouseDto dto = houseService.findHouseByUuid(uuid);
 
         return ResponseEntity.ok(dto);
@@ -76,7 +76,7 @@ public class HouseController {
 
     @Operation(description = "Get house with resients by uuid")
     @GetMapping(value = "/{uuid}/with_residents")
-    public ResponseEntity<?> findHouseResidentsByHouseUuid(@PathVariable("uuid") UUID uuid) {
+    public ResponseEntity<?> findHouseResidentsByHouseUuid(@PathVariable UUID uuid) {
         HouseResidentsDto dto = houseService.findAllResidentsByHouseUuid(uuid);
 
         return ResponseEntity.ok(dto);
@@ -92,7 +92,7 @@ public class HouseController {
 
     @Operation(description = "Update house by uuid")
     @PutMapping(value = "/{uuid}/update")
-    public ResponseEntity<?> updateHouseDto(@PathVariable("uuid") UUID uuid, @Valid @RequestBody HouseDto houseDto) {
+    public ResponseEntity<?> updateHouseDto(@PathVariable UUID uuid, @Valid @RequestBody HouseDto houseDto) {
         HouseDto dto = houseService.update(uuid, houseDto);
 
         return ResponseEntity.ok(dto);
@@ -100,7 +100,7 @@ public class HouseController {
 
     @Operation(description = "Delete house by uuid")
     @DeleteMapping(value = "/delete")
-    public ResponseEntity<?> deleteHouseByUuid(@RequestParam("uuid") UUID uuid) {
+    public ResponseEntity<?> deleteHouseByUuid(@RequestParam UUID uuid) {
         boolean isDeleted = houseService.deleteByUuid(uuid);
         if (isDeleted) {
             return ResponseEntity.noContent().build();

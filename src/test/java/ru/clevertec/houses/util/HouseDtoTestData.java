@@ -23,7 +23,7 @@ public class HouseDtoTestData {
                 .number(2);
     }
 
-    public static HouseDto getAvanHouse() {
+    public static HouseDto getAvanHouseDto() {
         return HouseDto.builder()
                 .uuid(UUID_H_AVAN)
                 .area(100.0F)
@@ -34,7 +34,7 @@ public class HouseDtoTestData {
                 .build();
     }
 
-    public static HouseDto getBvanHouse() {
+    public static HouseDto getBvanHouseDto() {
         return HouseDto.builder()
                 .uuid(UUID_H_BVAN)
                 .area(104.0F)
@@ -45,7 +45,7 @@ public class HouseDtoTestData {
                 .build();
     }
 
-    public static HouseDto getCvanHouse() {
+    public static HouseDto getCvanHouseDto() {
         return HouseDto.builder()
                 .uuid(UUID_H_CVAN)
                 .area(110.0F)
@@ -56,7 +56,7 @@ public class HouseDtoTestData {
                 .build();
     }
 
-    public static HouseDto getDvanHouse() {
+    public static HouseDto getDvanHouseDto() {
         return HouseDto.builder()
                 .uuid(UUID_H_DVAN)
                 .area(130.0F)
@@ -67,7 +67,7 @@ public class HouseDtoTestData {
                 .build();
     }
 
-    public static HouseDto getEvanHouse() {
+    public static HouseDto getEvanHouseDto() {
         return HouseDto.builder()
                 .uuid(UUID_H_EVAN)
                 .area(50.0F)
@@ -78,7 +78,7 @@ public class HouseDtoTestData {
                 .build();
     }
 
-    public static HouseDto getFvanHouse() {
+    public static HouseDto getFvanHouseDto() {
         return HouseDto.builder()
                 .uuid(UUID_H_FVAN)
                 .area(100.0F)
@@ -90,7 +90,11 @@ public class HouseDtoTestData {
     }
 
     public static List<HouseDto> getListHouseDto() {
-        return Arrays.asList(getAvanHouse(), getBvanHouse(), getCvanHouse(), getDvanHouse(), getEvanHouse(), getFvanHouse());
+        return Arrays.asList(getAvanHouseDto(), getBvanHouseDto(), getCvanHouseDto(), getDvanHouseDto(), getEvanHouseDto(), getFvanHouseDto());
+    }
+
+    public static List<HouseDto> getListOfTwoHouseDto() {
+        return Arrays.asList(getAvanHouseDto(), getBvanHouseDto());
     }
 
 }

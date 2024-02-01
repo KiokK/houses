@@ -5,8 +5,11 @@ spring:
       ddl-auto: none
 
   datasource:
+    url: jdbc:tc:postgresql:15.1:///test
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
     username: test
     password: test
 
   liquibase:
     enabled: true
+    change-log: classpath:db/changelog/db.changelog-master-test.yaml

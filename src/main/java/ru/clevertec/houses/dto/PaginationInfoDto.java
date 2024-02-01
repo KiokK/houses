@@ -1,4 +1,4 @@
-package ru.clevertec.houses.dao.model;
+package ru.clevertec.houses.dto;
 
 import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
@@ -8,21 +8,19 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class PaginationInfo {
+public class PaginationInfoDto {
 
+    @Min(0)
     private Integer pageNumber;
 
     @Min(1)
     private Integer pageSize;
 
-    public static final PaginationInfo DEFAULT = new PaginationInfo(0, 15);
+    public static final PaginationInfoDto DEFAULT = new PaginationInfoDto(0, 15);
 
-    public PaginationInfo() {
+    public PaginationInfoDto() {
         this.pageNumber = DEFAULT.pageNumber;
         this.pageSize = DEFAULT.pageSize;
     }
 
-    public int getOffset() {
-        return pageNumber * pageSize;
-    }
 }

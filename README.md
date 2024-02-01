@@ -1,3 +1,13 @@
+## Technologies
+- java 17
+- springframework.boot 3.2.1
+- spring data
+- lombok
+- mapstruct
+- testcontainers
+- openApi 2.2.0 (swagger)
+- postgresql
+
 ## Build
 - Cache: [CACHE_STARTER-HELP.md](cache-starter%2FCACHE_STARTER-HELP.md)
 - [application.yaml](src%2Fmain%2Fresources%2Fapplication.yaml)
@@ -8,8 +18,6 @@
         password: postgres
         url: jdbc:postgresql://localhost:3254/houses
     ```
-- run > [schema.sql](src%2Fmain%2Fresources%2Fdb%2Fschema.sql)
-- run > [data.sql](src%2Fmain%2Fresources%2Fdb%2Fdata.sql)
 - ```
     ./gradlew clean
     ./gradlew build
