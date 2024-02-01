@@ -128,7 +128,7 @@ class HouseControllerTest {
 
         @Test
         @SneakyThrows
-        void checkFindAllWhichEverLiveInHouseCorrect() {
+        void checkFindAllWhichEverLiveInHouseShouldReturnCorrectDto() {
             //given
             List<PersonDto> testPersonDtoList = getListPersonDtoSize6();
             Pageable pageable = PageRequest.of(PAGE_NUMBER_0, PAGE_SIZE_6);

@@ -12,6 +12,10 @@ spring:
     username: postgres
     password: postgres
     url: jdbc:postgresql://localhost:3254/houses
+  liquibase:
+    drop-first: false
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+    default-schema: public
 
 cache:
   algorithm-type: LFU

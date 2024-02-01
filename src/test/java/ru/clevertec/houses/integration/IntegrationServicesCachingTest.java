@@ -34,7 +34,7 @@ import static ru.clevertec.houses.util.PersonDtoTestData.getListPersonDtoSize6;
 @ActiveProfiles("test")
 @RequiredArgsConstructor
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
-class ServicesCachingIntegrationTest {
+class IntegrationServicesCachingTest {
 
     private final PersonService personService;
     private final HouseService houseService;
