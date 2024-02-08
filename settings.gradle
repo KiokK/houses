@@ -1,4 +1,3 @@
 rootProject.name = "rootHouses"
 
-include "houses"
 include "cache-starter"

@@ -11,18 +11,10 @@ import ru.clevertec.houses.dto.error.ErrorResponseDto;
 import java.util.HashMap;
 import java.util.Map;
 
-import static ru.clevertec.houses.dto.error.ErrorCodeConstants.ENTITY_NOT_FOUND;
 import static ru.clevertec.houses.dto.error.ErrorCodeConstants.REQUEST_NOT_VALID;
 
 @RestControllerAdvice
 public class RestControllerExceptionHandler {
-
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<?> handleEntityNotFoundException(EntityNotFoundException e) {
-
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(new ErrorResponseDto(e.getMessage(), ENTITY_NOT_FOUND));
-    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> handleValidationExceptions(MethodArgumentNotValidException e) {

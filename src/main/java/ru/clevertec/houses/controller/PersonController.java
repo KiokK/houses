@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import ru.clevertec.exceptionhandlerstarter.annotation.EntityNotFoundResponse;
 import ru.clevertec.houses.dto.PaginationInfoDto;
 import ru.clevertec.houses.dto.PersonDto;
 import ru.clevertec.houses.dto.PersonsHouseDto;
@@ -33,11 +34,13 @@ import java.util.UUID;
 import static ru.clevertec.houses.dto.error.ErrorCodeConstants.ENTITY_NOT_MODIFIED;
 import static ru.clevertec.houses.dto.error.ErrorMessagesConstants.M_NOT_DELETED;
 import static ru.clevertec.houses.dto.error.ErrorMessagesConstants.M_NOT_UPDATED;
+import static ru.clevertec.houses.exception.ErrorCode.PERSON_NOT_FOUND;
 
-@Tag(name = "Person")
 @RestController
+@Tag(name = "Person")
 @RequiredArgsConstructor
 @RequestMapping("/persons")
+@EntityNotFoundResponse(errorCode = PERSON_NOT_FOUND)
 public class PersonController {
 
     private final PersonService personService;

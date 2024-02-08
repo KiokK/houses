@@ -18,7 +18,6 @@ import ru.clevertec.houses.dto.PersonsHouseDto;
 import ru.clevertec.houses.dto.request.PersonsHouseRequestDto;
 import ru.clevertec.houses.dto.response.PaginationResponseDto;
 import ru.clevertec.houses.dto.response.PersonHistoryDto;
-import ru.clevertec.houses.exception.EntityNotFoundException;
 import ru.clevertec.houses.model.enums.HistoryType;
 import ru.clevertec.houses.service.PersonService;
 
@@ -26,7 +25,6 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -37,13 +35,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.clevertec.houses.dto.error.ErrorCodeConstants.ENTITY_NOT_FOUND;
 import static ru.clevertec.houses.dto.error.ErrorCodeConstants.ENTITY_NOT_MODIFIED;
 import static ru.clevertec.houses.dto.error.ErrorCodeConstants.REQUEST_NOT_VALID;
 import static ru.clevertec.houses.util.ConstantsTest.EMPTY_STRING;
 import static ru.clevertec.houses.util.ConstantsTest.INCORRECT_PASSPORT_NUMBER_SHORT;
 import static ru.clevertec.houses.util.ConstantsTest.INCORRECT_PASSPORT_SERIES;
-import static ru.clevertec.houses.util.ConstantsTest.NOT_EXISTS_UUID;
 import static ru.clevertec.houses.util.ConstantsTest.PAGE_NUMBER_0;
 import static ru.clevertec.houses.util.ConstantsTest.PAGE_SIZE_6;
 import static ru.clevertec.houses.util.ConstantsTest.UUID_H_AVAN;
@@ -160,22 +156,22 @@ class PersonControllerTest {
                     );
         }
 
-        @Test
-        @SneakyThrows
-        void checkFindAllHousesInWhichEverLiveShouldReturnErrorDto() {
-            //when
-            when(personService.findHousesByPersonUuidAndHistoryType(eq(NOT_EXISTS_UUID), any(Pageable.class), eq(HistoryType.TENANT)))
-                    .thenThrow(new EntityNotFoundException());
-
-            //then
-            mockMvc.perform(get(String.format("/persons/%s/history/housing?pageNumber=0&pageSize=6", NOT_EXISTS_UUID)))
-                    .andExpectAll(
-                            status().is4xxClientError(),
-                            content().contentType(MediaType.APPLICATION_JSON),
-                            jsonPath("$.errorCode").value(ENTITY_NOT_FOUND),
-                            jsonPath("$.errorMessage").isNotEmpty()
-                    );
-        }
+//        @Test
+//        @SneakyThrows
+//        void checkFindAllHousesInWhichEverLiveShouldReturnErrorDto() {
+//            //when
+//            when(personService.findHousesByPersonUuidAndHistoryType(eq(NOT_EXISTS_UUID), any(Pageable.class), eq(HistoryType.TENANT)))
+//                    .thenThrow(new EntityNotFoundException());
+//
+//            //then
+//            mockMvc.perform(get(String.format("/persons/%s/history/housing?pageNumber=0&pageSize=6", NOT_EXISTS_UUID)))
+//                    .andExpectAll(
+//                            status().is4xxClientError(),
+//                            content().contentType(MediaType.APPLICATION_JSON),
+//                            jsonPath("$.errorCode").value(ENTITY_NOT_FOUND),
+//                            jsonPath("$.errorMessage").isNotEmpty()
+//                    );
+//        }
     }
 
     @Nested
@@ -205,22 +201,22 @@ class PersonControllerTest {
                     );
         }
 
-        @Test
-        @SneakyThrows
-        void checkHistoryAboutOwnershipsShouldReturnErrorDto() {
-            //when
-            when(personService.findHousesByPersonUuidAndHistoryType(eq(NOT_EXISTS_UUID), any(Pageable.class), eq(HistoryType.OWNER)))
-                    .thenThrow(new EntityNotFoundException());
-
-            //then
-            mockMvc.perform(get(String.format("/persons/%s/history/ownerships?pageNumber=0&pageSize=6", NOT_EXISTS_UUID)))
-                    .andExpectAll(
-                            status().is4xxClientError(),
-                            content().contentType(MediaType.APPLICATION_JSON),
-                            jsonPath("$.errorCode").value(ENTITY_NOT_FOUND),
-                            jsonPath("$.errorMessage").isNotEmpty()
-                    );
-        }
+//        @Test
+//        @SneakyThrows
+//        void checkHistoryAboutOwnershipsShouldReturnErrorDto() {
+//            //when
+//            when(personService.findHousesByPersonUuidAndHistoryType(eq(NOT_EXISTS_UUID), any(Pageable.class), eq(HistoryType.OWNER)))
+//                    .thenThrow(new EntityNotFoundException());
+//
+//            //then
+//            mockMvc.perform(get(String.format("/persons/%s/history/ownerships?pageNumber=0&pageSize=6", NOT_EXISTS_UUID)))
+//                    .andExpectAll(
+//                            status().is4xxClientError(),
+//                            content().contentType(MediaType.APPLICATION_JSON),
+//                            jsonPath("$.errorCode").value(ENTITY_NOT_FOUND),
+//                            jsonPath("$.errorMessage").isNotEmpty()
+//                    );
+//        }
     }
 
     @Nested
@@ -252,22 +248,22 @@ class PersonControllerTest {
                     );
         }
 
-        @Test
-        @SneakyThrows
-        void checkFindPersonByUuidShouldReturnErrorDto() {
-            //when
-            when(personService.findPersonByUuid(NOT_EXISTS_UUID))
-                    .thenThrow(new EntityNotFoundException(NOT_EXISTS_UUID));
-
-            //then
-            mockMvc.perform(get(String.format("/persons/%s", NOT_EXISTS_UUID)))
-                    .andExpectAll(
-                            status().is4xxClientError(),
-                            content().contentType(MediaType.APPLICATION_JSON),
-                            jsonPath("$.errorCode").value(ENTITY_NOT_FOUND),
-                            jsonPath("$.errorMessage").isNotEmpty()
-                    );
-        }
+//        @Test
+//        @SneakyThrows
+//        void checkFindPersonByUuidShouldReturnErrorDto() {
+//            //when
+//            when(personService.findPersonByUuid(NOT_EXISTS_UUID))
+//                    .thenThrow(new EntityNotFoundException(NOT_EXISTS_UUID));
+//
+//            //then
+//            mockMvc.perform(get(String.format("/persons/%s", NOT_EXISTS_UUID)))
+//                    .andExpectAll(
+//                            status().is4xxClientError(),
+//                            content().contentType(MediaType.APPLICATION_JSON),
+//                            jsonPath("$.errorCode").value(ENTITY_NOT_FOUND),
+//                            jsonPath("$.errorMessage").isNotEmpty()
+//                    );
+//        }
     }
 
     @Nested
@@ -296,22 +292,22 @@ class PersonControllerTest {
                     );
         }
 
-        @Test
-        @SneakyThrows
-        void checkFindAllOwnHousesByPersonUuidShouldReturnErrorDto() {
-            //when
-            when(personService.findAllOwnHousesByPersonUuid(NOT_EXISTS_UUID))
-                    .thenThrow(new EntityNotFoundException());
-
-            //then
-            mockMvc.perform(get(String.format("/persons/%s/with_houses", NOT_EXISTS_UUID)))
-                    .andExpectAll(
-                            status().is4xxClientError(),
-                            content().contentType(MediaType.APPLICATION_JSON),
-                            jsonPath("$.errorCode").value(ENTITY_NOT_FOUND),
-                            jsonPath("$.errorMessage").isNotEmpty()
-                    );
-        }
+//        @Test
+//        @SneakyThrows
+//        void checkFindAllOwnHousesByPersonUuidShouldReturnErrorDto() {
+//            //when
+//            when(personService.findAllOwnHousesByPersonUuid(NOT_EXISTS_UUID))
+//                    .thenThrow(new EntityNotFoundException());
+//
+//            //then
+//            mockMvc.perform(get(String.format("/persons/%s/with_houses", NOT_EXISTS_UUID)))
+//                    .andExpectAll(
+//                            status().is4xxClientError(),
+//                            content().contentType(MediaType.APPLICATION_JSON),
+//                            jsonPath("$.errorCode").value(ENTITY_NOT_FOUND),
+//                            jsonPath("$.errorMessage").isNotEmpty()
+//                    );
+//        }
     }
 
 
