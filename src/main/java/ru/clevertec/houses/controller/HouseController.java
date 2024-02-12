@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import ru.clevertec.exceptionhandlerstarter.annotation.EntityNotFoundResponse;
 import ru.clevertec.houses.dto.PaginationInfoDto;
 import ru.clevertec.houses.dto.HouseDto;
 import ru.clevertec.houses.dto.HouseResidentsDto;
@@ -31,11 +32,13 @@ import java.util.UUID;
 
 import static ru.clevertec.houses.dto.error.ErrorCodeConstants.ENTITY_NOT_MODIFIED;
 import static ru.clevertec.houses.dto.error.ErrorMessagesConstants.M_NOT_DELETED;
+import static ru.clevertec.houses.exception.ErrorCode.HOUSE_NOT_FOUND;
 
-@Tag(name = "House")
 @RestController
+@Tag(name = "House")
 @RequiredArgsConstructor
 @RequestMapping("/houses")
+@EntityNotFoundResponse(errorCode = HOUSE_NOT_FOUND)
 public class HouseController {
 
     private final HouseService houseService;

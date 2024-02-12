@@ -9,7 +9,8 @@
 - postgresql
 
 ## Build
-- Cache: [CACHE_STARTER-HELP.md](cache-starter%2FCACHE_STARTER-HELP.md)
+- Cache-starter: [CACHE_STARTER_HELP.md](cache-starter%2FCACHE_STARTER_HELP.md)
+- Exception-starter: [EXCEPTION_STARTER_HELP.md](exception-handler-starter%2FEXCEPTION_STARTER_HELP.md)
 - [application.yaml](src%2Fmain%2Fresources%2Fapplication.yaml)
     ```yaml
     datasource:

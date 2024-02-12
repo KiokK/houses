@@ -31,6 +31,7 @@ ext {
     mapstractVersion = '1.5.5.Final'
     openApiVersion = '2.2.0'
     customCacheStarterVersion = '1.0.0'
+    customExceptionStarterVersion = '1.0.0'
 }
 
 dependencies {
@@ -48,6 +49,7 @@ dependencies {
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 
     implementation "ru.clevertec:cache-starter:${customCacheStarterVersion}"
+    implementation "ru.clevertec:exception-handler-starter:${customExceptionStarterVersion}"
 
     implementation "org.mapstruct:mapstruct:${mapstractVersion}"
 

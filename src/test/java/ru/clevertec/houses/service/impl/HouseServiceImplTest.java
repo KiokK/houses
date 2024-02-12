@@ -17,7 +17,7 @@ import ru.clevertec.houses.dto.HouseResidentsDto;
 import ru.clevertec.houses.dto.PersonDto;
 import ru.clevertec.houses.dto.response.HouseHistoryDto;
 import ru.clevertec.houses.dto.response.PaginationResponseDto;
-import ru.clevertec.houses.exception.EntityNotFoundException;
+import ru.clevertec.exceptionhandlerstarter.exception.EntityNotFoundException;
 import ru.clevertec.houses.model.House;
 import ru.clevertec.houses.model.Person;
 import ru.clevertec.houses.model.enums.HistoryType;
